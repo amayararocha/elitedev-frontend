@@ -1,57 +1,58 @@
-// src/app/services/movie.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environment/environment';
+
+interface MovieData {
+  // Defina a estrutura dos dados de filme conforme necessário
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  private baseUrl = 'http://localhost:5000/api'; // Altere para a URL da sua API
+
+  private apiUrl = `${environment.apiUrl}/movies`;
 
   constructor(private http: HttpClient) {}
 
-  getPopularMovies(page: number = 1): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/popular`, {
-      params: new HttpParams().set('page', page.toString())
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token'); // Ajuste a forma como você obtém o token
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
     });
   }
 
-  getUpcomingMovies(page: number = 1): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/upcoming`, {
-      params: new HttpParams().set('page', page.toString())
-    });
+  getPopularMovies(page: number = 1): Observable<MovieData> {
+    return this.http.get<MovieData>(`${this.apiUrl}/popular?page=${page}`, { headers: this.getHeaders() });
   }
 
-  getTopRatedMovies(page: number = 1): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/top_rated`, {
-      params: new HttpParams().set('page', page.toString())
-    });
+  getUpcomingMovies(page: number = 1): Observable<MovieData> {
+    return this.http.get<MovieData>(`${this.apiUrl}/upcoming?page=${page}`, { headers: this.getHeaders() });
   }
 
-  getNowPlayingMovies(page: number = 1): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/now_playing`, {
-      params: new HttpParams().set('page', page.toString())
-    });
+  getTopRatedMovies(page: number = 1): Observable<MovieData> {
+    return this.http.get<MovieData>(`${this.apiUrl}/top_rated?page=${page}`, { headers: this.getHeaders() });
   }
 
-  searchMovies(query: string, page: number = 1): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/search`, {
-      params: new HttpParams().set('query', query).set('page', page.toString())
-    });
+  getNowPlayingMovies(page: number = 1): Observable<MovieData> {
+    return this.http.get<MovieData>(`${this.apiUrl}/now_playing?page=${page}`, { headers: this.getHeaders() });
+  }
+
+  searchMovies(query: string, page: number = 1): Observable<MovieData> {
+    return this.http.get<MovieData>(`${this.apiUrl}/search?query=${query}&page=${page}`, { headers: this.getHeaders() });
   }
 
   getFavorites(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movies/favorites`);
+    return this.http.get<any>(`${this.apiUrl}/favorites`, { headers: this.getHeaders() });
   }
 
   addFavorite(movieId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/movies/favorites`, { movieId });
+    return this.http.post<any>(`${this.apiUrl}/favorites`, { movieId }, { headers: this.getHeaders() });
   }
 
   removeFavorite(movieId: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/movies/favorites`, {
-      body: { movieId }
-    });
+    return this.http.delete<any>(`${this.apiUrl}/favorites/${movieId}`, { headers: this.getHeaders() });
   }
 }

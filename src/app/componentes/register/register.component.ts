@@ -1,4 +1,3 @@
-// src/app/components/register/register.component.ts
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
@@ -20,16 +19,17 @@ export class RegisterComponent {
   constructor(private userService: UserService, private router: Router) {}
 
   onSubmit() {
-    this.userService.register(this.registerData).subscribe(
+    this.userService.register(this.registerData.username, this.registerData.email, this.registerData.password).subscribe(
       (response) => {
         // Armazene o token ou qualquer outra lógica necessária
         localStorage.setItem('token', response.token);
 
-        // Redirecionar para a página de filmes
-        this.router.navigate(['/movies']);
+        // Redirecionar para a página de login
+        this.router.navigate(['/login']);
       },
       (error) => {
         console.error('Erro ao fazer cadastro', error);
+        // Adicionar lógica para informar o usuário sobre o erro
       }
     );
   }

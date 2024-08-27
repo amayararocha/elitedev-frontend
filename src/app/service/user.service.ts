@@ -1,29 +1,36 @@
-// src/app/services/user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environment/environment';
+
+interface RegisterResponse {
+  message: string;
+  token: string;
+}
+
+interface LoginResponse {
+  message: string;
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:5000/api/users'; // Substitua pela URL real do seu backend
+
+  private apiUrl = `${environment.apiUrl}/users`;
 
   constructor(private http: HttpClient) {}
 
-  // Registro de usuário com username, email e senha
-  register(userData: { username: string; email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+  register(username: string, email: string, password: string): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, { username, email, password });
   }
 
-  // Login do usuário com username e senha
-  login(userData: { username: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, userData);
+  login(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { username, password });
   }
 
-  // Atualização do token - você pode precisar adicionar o cabeçalho de autorização
-  refreshToken(token: string): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get(`${this.apiUrl}/refresh-token`, { headers });
+  refreshToken(): Observable<{ message: string, token: string }> {
+    return this.http.post<{ message: string, token: string }>(`${this.apiUrl}/refresh-token`, {});
   }
 }
