@@ -1,0 +1,38 @@
+<div class="flex min-h-screen bg-gray-800 text-gray-400 justify-center items-center p-4">
+  <div class="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-6xl">
+    <h1 class="text-2xl font-bold text-gray-100 mb-8">Filmes Favoritos</h1>
+
+    <div *ngIf="favorites.length > 0; else noFavorites">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div *ngFor="let movie of favorites" class="relative border rounded-lg overflow-hidden shadow-lg bg-gray-800 group">
+          <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" 
+               alt="{{ movie.title }}" 
+               class="w-full h-72 object-cover"
+          />
+          <div class="absolute inset-0 bg-gray-900 bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-100 mb-2">{{ movie.title }}</h2>
+              <p class="text-gray-400">{{ movie.release_date | date:'mediumDate' }}</p>
+              <p class="text-gray-300 mt-2">{{ movie.overview | slice:0:100 }}...</p>
+            </div>
+            <div class="flex justify-between items-center mt-4">
+              <span class="bg-gray-900 text-yellow-400 px-2 py-1 rounded-lg text-xs">
+                {{ movie.vote_average | number:'1.1-1' }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noFavorites>
+      <p class="text-gray-400 mb-4">Nenhum filme favorito encontrado.</p>
+      <button 
+        (click)="redirectToMovies()"
+        class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-teal-500 text-white rounded-lg font-medium text-sm transition duration-300 hover:from-indigo-600 hover:to-teal-600 focus:outline-none"
+      >
+        Ver Todos os Filmes
+      </button>
+    </ng-template>
+  </div>
+</div>

@@ -1,13 +1,9 @@
-<!-- nav.component.html -->
 <nav class="bg-gray-900 text-white p-6 shadow-lg relative">
   <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-    <!-- Logo e Nome -->
     <div class="flex items-center space-x-4 mb-4 md:mb-0">
       <img src="https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/23ef.svg" alt="Logo" class="w-12 h-12 object-cover">
       <div class="text-3xl font-medium text-gray-100">MyEliteDev</div>
     </div>
-    
-    <!-- Botão do Menu Hambúrguer -->
     <div class="md:hidden flex items-center">
       <button (click)="toggleMenu()" class="text-white focus:outline-none">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -15,8 +11,6 @@
         </svg>
       </button>
     </div>
-
-    <!-- Menu Principal -->
     <ul class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
       <li>
         <a href="/" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Home</a>
@@ -25,7 +19,7 @@
         <a href="/movies" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Movies</a>
       </li>
       <li>
-        <a href="/rating" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Your Favorite</a>
+        <a href="/favorite" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Your Favorite</a>
       </li>
       <li>
         <a href="/login"
@@ -36,8 +30,6 @@
       </li>
     </ul>
   </div>
-
-  <!-- Menu Hambúrguer Lateral -->
   <div *ngIf="menuOpen" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 md:hidden">
     <div class="flex flex-col items-center justify-center min-h-full p-6 relative">
       <button (click)="closeMenu()" class="absolute top-4 right-4 text-white">
@@ -53,7 +45,7 @@
           <a href="/movies" class="text-white text-lg font-medium" (click)="closeMenu()">Movies</a>
         </li>
         <li>
-          <a href="/rating" class="text-white text-lg font-medium" (click)="closeMenu()">Your Favorite</a>
+          <a href="/favorite" class="text-white text-lg font-medium" (click)="closeMenu()">Your Favorite</a>
         </li>
         <li>
           <a href="/login" class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu()">Login</a>

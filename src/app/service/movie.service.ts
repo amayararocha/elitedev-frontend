@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
 
 interface MovieData {
-  // Defina a estrutura dos dados de filme conforme necessário
 }
 
 @Injectable({
@@ -17,7 +16,7 @@ export class MovieService {
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // Ajuste a forma como você obtém o token
+    const token = localStorage.getItem('token'); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Accept': 'application/json'

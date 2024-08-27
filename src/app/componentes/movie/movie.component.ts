@@ -16,12 +16,13 @@ export class MovieComponent implements OnInit {
   selectedCategory = 'popular';
   searchQuery = '';
   page = 1;
-  favorites: Set<number> = new Set(); // Armazena IDs dos filmes favoritos
-
+  favorites: string[] = []; 
+  
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
     this.loadMovies();
+    this.loadFavorites(); 
   }
 
   loadMovies(): void {
@@ -60,19 +61,56 @@ export class MovieComponent implements OnInit {
     this.searchMovies();
   }
 
-  addToFavorites(movie: any): void {
-    if (this.favorites.has(movie.id)) {
-      this.favorites.delete(movie.id);
+  formatCategory(category: string): string {
+    return category.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  }
+
+  loadFavorites(): void {
+    this.movieService.getFavorites().subscribe(
+      (favorites: string[]) => {
+        this.favorites = favorites;
+      },
+      (error) => {
+        console.error('Erro ao carregar os favoritos:', error);
+      }
+    );
+  }
+
+  isFavorite(movieId: string): boolean {
+    return this.favorites.includes(movieId);
+  }
+
+  toggleFavorite(movie: any): void {
+    if (this.isFavorite(movie.id)) {
+      this.removeFavorite(movie.id);
     } else {
-      this.favorites.add(movie.id);
+      this.addFavorite(movie.id);
     }
   }
 
-  isFavorite(movieId: number): boolean {
-    return this.favorites.has(movieId);
+  addFavorite(movieId: string): void {
+    this.movieService.addFavorite(movieId).subscribe(
+      () => {
+        this.favorites.push(movieId);
+        alert('Filme adicionado aos favoritos com sucesso!');
+      },
+      (error) => {
+        console.error('Erro ao adicionar o filme aos favoritos:', error);
+        alert('Erro ao adicionar o filme aos favoritos.');
+      }
+    );
   }
 
-  formatCategory(category: string): string {
-    return category.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  removeFavorite(movieId: string): void {
+    this.movieService.removeFavorite(movieId).subscribe(
+      () => {
+        this.favorites = this.favorites.filter(id => id !== movieId);
+        alert('Filme removido dos favoritos com sucesso!');
+      },
+      (error) => {
+        console.error('Erro ao remover o filme dos favoritos:', error);
+        alert('Erro ao remover o filme dos favoritos.');
+      }
+    );
   }
 }

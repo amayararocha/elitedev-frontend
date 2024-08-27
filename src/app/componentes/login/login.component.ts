@@ -20,15 +20,11 @@ export class LoginComponent {
   onSubmit(): void {
     this.userService.login(this.loginData.username, this.loginData.password).subscribe(
       response => {
-        // Armazenar o token ou qualquer outra informação necessária
         localStorage.setItem('token', response.token);
-
-        // Redirecionar para a página de filmes
         this.router.navigate(['/movies']);
       },
       error => {
         console.error('Login failed', error);
-        // Adicionar lógica de tratamento de erro, como mostrar uma mensagem ao usuário
       }
     );
   }
