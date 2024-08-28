@@ -12,21 +12,26 @@
       </button>
     </div>
     <ul class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
-      <li>
+      <li *ngIf="isLoggedIn">
         <a href="/" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Home</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn">
         <a href="/movies" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Movies</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn">
         <a href="/favorite" class="hover:text-teal-400 transition-colors duration-300 text-lg font-medium">Your Favorite</a>
       </li>
-      <li>
+      <li *ngIf="!isLoggedIn">
         <a href="/login"
            class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-2 px-6 rounded-full 
-                  hover:from-teal-600 hover:to-cyan-600 hover:shadow-lg transition duration-300 transform hover:scale-105 text-lg">
-          Login
-        </a>
+                  hover:from-teal-600 hover:to-cyan-600 hover:shadow-lg transition duration-300 transform hover:scale-105 text-lg"
+           (click)="login('user', 'password')">Login</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a href="/logout"
+           class="bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold py-2 px-6 rounded-full 
+                  hover:from-red-600 hover:to-pink-600 hover:shadow-lg transition duration-300 transform hover:scale-105 text-lg"
+           (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>
@@ -38,17 +43,20 @@
         </svg>
       </button>
       <ul class="space-y-4 text-center">
-        <li>
+        <li *ngIf="isLoggedIn">
           <a href="/" class="text-white text-lg font-medium" (click)="closeMenu()">Home</a>
         </li>
-        <li>
+        <li *ngIf="isLoggedIn">
           <a href="/movies" class="text-white text-lg font-medium" (click)="closeMenu()">Movies</a>
         </li>
-        <li>
+        <li *ngIf="isLoggedIn">
           <a href="/favorite" class="text-white text-lg font-medium" (click)="closeMenu()">Your Favorite</a>
         </li>
-        <li>
-          <a href="/login" class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu()">Login</a>
+        <li *ngIf="!isLoggedIn">
+          <a href="/login" class="bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); login('testuser', 'testpassword')">Login</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a href="/logout" class="bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); logout()">Logout</a>
         </li>
       </ul>
     </div>

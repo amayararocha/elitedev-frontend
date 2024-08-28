@@ -15,9 +15,11 @@ export class MovieComponent implements OnInit {
   categories = ['popular', 'top_rated', 'upcoming'];
   selectedCategory = 'popular';
   searchQuery = '';
-  page = 1;
+  currentPage = 1;
+  totalPages = 1;
+  itemsPerPage = 10;
   favorites: string[] = [];
-  
+
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
@@ -28,20 +30,20 @@ export class MovieComponent implements OnInit {
   loadMovies(): void {
     switch (this.selectedCategory) {
       case 'popular':
-        this.movieService.getPopularMovies(this.page).subscribe(data => this.handleResponse(data));
+        this.movieService.getPopularMovies(this.currentPage).subscribe(data => this.handleResponse(data));
         break;
       case 'top_rated':
-        this.movieService.getTopRatedMovies(this.page).subscribe(data => this.handleResponse(data));
+        this.movieService.getTopRatedMovies(this.currentPage).subscribe(data => this.handleResponse(data));
         break;
       case 'upcoming':
-        this.movieService.getUpcomingMovies(this.page).subscribe(data => this.handleResponse(data));
+        this.movieService.getUpcomingMovies(this.currentPage).subscribe(data => this.handleResponse(data));
         break;
     }
   }
 
   searchMovies(): void {
     if (this.searchQuery) {
-      this.movieService.searchMovies(this.searchQuery, this.page).subscribe(data => this.handleResponse(data));
+      this.movieService.searchMovies(this.searchQuery, this.currentPage).subscribe(data => this.handleResponse(data));
     } else {
       this.loadMovies();
     }
@@ -49,6 +51,7 @@ export class MovieComponent implements OnInit {
 
   handleResponse(data: any): void {
     this.movies = data.results;
+    this.totalPages = data.total_pages; // Supondo que a resposta inclui o total de páginas
     this.filteredMovies = this.movies;
   }
 
@@ -122,5 +125,19 @@ export class MovieComponent implements OnInit {
       ...movie,
       isFavorite: this.isFavorite(movie.id)
     }));
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.loadMovies();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadMovies();
+    }
   }
 }

@@ -4,7 +4,7 @@
 
     <div *ngIf="favorites.length > 0; else noFavorites">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <div *ngFor="let movie of favorites" class="relative border rounded-lg overflow-hidden shadow-lg bg-gray-800 group">
+        <div *ngFor="let movie of paginatedFavorites" class="relative border rounded-lg overflow-hidden shadow-lg bg-gray-800 group">
           <img [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" 
                alt="{{ movie.title }}" 
                class="w-full h-72 object-cover"
@@ -28,6 +28,25 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Pagination Controls -->
+      <div class="flex justify-between items-center mt-8">
+        <button
+          (click)="previousPage()"
+          [disabled]="currentPage === 1"
+          class="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <span class="text-gray-300">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button
+          (click)="nextPage()"
+          [disabled]="currentPage === totalPages"
+          class="px-4 py-2 bg-gray-700 text-gray-100 rounded-lg disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </div>
 

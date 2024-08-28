@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../service/movie.service';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-favorite',
@@ -11,6 +11,10 @@ import { Router } from '@angular/router';
 })
 export class FavoritesComponent implements OnInit {
   favorites: any[] = [];
+  paginatedFavorites: any[] = [];
+  currentPage = 1;
+  totalPages = 1;
+  itemsPerPage = 20; // Fixed number of items per page
 
   constructor(private movieService: MovieService, private router: Router) {}
 
@@ -22,11 +26,19 @@ export class FavoritesComponent implements OnInit {
     this.movieService.getFavorites().subscribe(
       (favorites: any[]) => {
         this.favorites = favorites;
+        this.totalPages = Math.ceil(this.favorites.length / this.itemsPerPage);
+        this.updatePaginatedFavorites();
       },
       (error) => {
         console.error('Error loading favorites:', error);
       }
     );
+  }
+
+  updatePaginatedFavorites(): void {
+    const start = (this.currentPage - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
+    this.paginatedFavorites = this.favorites.slice(start, end);
   }
 
   redirectToMovies(): void {
@@ -38,6 +50,8 @@ export class FavoritesComponent implements OnInit {
       this.movieService.removeFavorite(movieId).subscribe(
         () => {
           this.favorites = this.favorites.filter(movie => movie.id !== movieId);
+          this.totalPages = Math.ceil(this.favorites.length / this.itemsPerPage);
+          this.updatePaginatedFavorites();
           alert('Movie removed from favorites successfully!');
         },
         (error) => {
@@ -45,6 +59,20 @@ export class FavoritesComponent implements OnInit {
           alert('Error removing movie from favorites.');
         }
       );
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedFavorites();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedFavorites();
     }
   }
 }
