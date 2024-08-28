@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core';
+import { LoginResponse, UserService } from '../../service/user.service';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,10 +12,12 @@ export class NavbarComponent implements OnInit {
   menuOpen: boolean = false;
   isLoggedIn: boolean = false;
 
-  constructor(private userService: UserService, private cdr: ChangeDetectorRef) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.checkLoginStatus();
+    this.userService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
   }
 
   toggleMenu(): void {
@@ -28,10 +30,7 @@ export class NavbarComponent implements OnInit {
 
   login(username: string, password: string): void {
     this.userService.login(username, password).subscribe(
-      response => {
-        localStorage.setItem('token', response.token);
-        this.checkLoginStatus(); 
-        this.cdr.detectChanges(); 
+      (response: LoginResponse) => {
       },
       error => {
         console.error('Login failed:', error);
@@ -40,13 +39,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.checkLoginStatus(); 
-    this.cdr.detectChanges(); 
-  }
-
-  checkLoginStatus(): void {
-    const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token; 
+    this.userService.logout();
   }
 }
