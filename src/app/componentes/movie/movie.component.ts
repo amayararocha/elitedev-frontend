@@ -51,7 +51,7 @@ export class MovieComponent implements OnInit {
 
   handleResponse(data: any): void {
     this.movies = data.results;
-    this.totalPages = data.total_pages; // Supondo que a resposta inclui o total de páginas
+    this.totalPages = data.total_pages; 
     this.filteredMovies = this.movies;
   }
 

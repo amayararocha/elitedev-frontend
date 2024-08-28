@@ -30,8 +30,8 @@ export class NavbarComponent implements OnInit {
     this.userService.login(username, password).subscribe(
       response => {
         localStorage.setItem('token', response.token);
-        this.checkLoginStatus(); // Atualiza o estado após o login
-        this.cdr.detectChanges(); // Força a atualização do DOM
+        this.checkLoginStatus(); 
+        this.cdr.detectChanges(); 
       },
       error => {
         console.error('Login failed:', error);
@@ -41,12 +41,12 @@ export class NavbarComponent implements OnInit {
 
   logout(): void {
     localStorage.removeItem('token');
-    this.checkLoginStatus(); // Atualiza o estado após o logout
-    this.cdr.detectChanges(); // Força a atualização do DOM
+    this.checkLoginStatus(); 
+    this.cdr.detectChanges(); 
   }
 
   checkLoginStatus(): void {
     const token = localStorage.getItem('token');
-    this.isLoggedIn = !!token; // Verifica se há um token no localStorage
+    this.isLoggedIn = !!token; 
   }
 }

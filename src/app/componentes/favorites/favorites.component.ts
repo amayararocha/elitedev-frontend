@@ -14,7 +14,7 @@ export class FavoritesComponent implements OnInit {
   paginatedFavorites: any[] = [];
   currentPage = 1;
   totalPages = 1;
-  itemsPerPage = 20; // Fixed number of items per page
+  itemsPerPage = 20; 
 
   constructor(private movieService: MovieService, private router: Router) {}
 
