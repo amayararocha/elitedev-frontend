@@ -1,6 +1,6 @@
 <div class="flex min-h-screen bg-gray-800 text-gray-400 justify-center items-center p-4">
   <div class="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-6xl">
-    <h1 class="text-2xl font-bold text-gray-100 mb-8">Filmes Favoritos</h1>
+    <h1 class="text-2xl font-bold text-gray-100 mb-8">Favorite Movies</h1>
 
     <div *ngIf="favorites.length > 0; else noFavorites">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -19,6 +19,12 @@
               <span class="bg-gray-900 text-yellow-400 px-2 py-1 rounded-lg text-xs">
                 {{ movie.vote_average | number:'1.1-1' }}
               </span>
+              <button 
+                (click)="removeFavorite(movie.id)"
+                class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition duration-300"
+              >
+                Remove from Favorites
+              </button>
             </div>
           </div>
         </div>
@@ -26,12 +32,12 @@
     </div>
 
     <ng-template #noFavorites>
-      <p class="text-gray-400 mb-4">Nenhum filme favorito encontrado.</p>
+      <p class="text-gray-400 mb-4">No favorite movies found.</p>
       <button 
         (click)="redirectToMovies()"
         class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-teal-500 text-white rounded-lg font-medium text-sm transition duration-300 hover:from-indigo-600 hover:to-teal-600 focus:outline-none"
       >
-        Ver Todos os Filmes
+        View All Movies
       </button>
     </ng-template>
   </div>

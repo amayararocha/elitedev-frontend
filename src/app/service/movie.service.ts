@@ -51,7 +51,7 @@ export class MovieService {
     return this.http.post<any>(`${this.apiUrl}/favorites`, { movieId }, { headers: this.getHeaders() });
   }
 
-  removeFavorite(movieId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/favorites/${movieId}`, { headers: this.getHeaders() });
+  removeFavorite(movieId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/favorites/${movieId}`, { headers: this.getHeaders()});
   }
 }

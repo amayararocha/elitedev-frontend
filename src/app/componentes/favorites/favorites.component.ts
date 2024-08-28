@@ -20,16 +20,31 @@ export class FavoritesComponent implements OnInit {
 
   loadFavorites(): void {
     this.movieService.getFavorites().subscribe(
-      (favorites: string[]) => {
+      (favorites: any[]) => {
         this.favorites = favorites;
       },
       (error) => {
-        console.error('Erro ao carregar os favoritos:', error);
+        console.error('Error loading favorites:', error);
       }
     );
   }
 
   redirectToMovies(): void {
     this.router.navigate(['/movies']);
+  }
+
+  removeFavorite(movieId: string): void {
+    if (confirm('Are you sure you want to remove this movie from favorites?')) {
+      this.movieService.removeFavorite(movieId).subscribe(
+        () => {
+          this.favorites = this.favorites.filter(movie => movie.id !== movieId);
+          alert('Movie removed from favorites successfully!');
+        },
+        (error) => {
+          console.error('Error removing movie from favorites:', error);
+          alert('Error removing movie from favorites.');
+        }
+      );
+    }
   }
 }

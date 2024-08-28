@@ -16,7 +16,7 @@ export class MovieComponent implements OnInit {
   selectedCategory = 'popular';
   searchQuery = '';
   page = 1;
-  favorites: string[] = []; 
+  favorites: string[] = [];
   
   constructor(private movieService: MovieService) {}
 
@@ -69,9 +69,11 @@ export class MovieComponent implements OnInit {
     this.movieService.getFavorites().subscribe(
       (favorites: string[]) => {
         this.favorites = favorites;
+        // Update the favorite list in the UI after loading
+        this.updateFavoriteStates();
       },
       (error) => {
-        console.error('Erro ao carregar os favoritos:', error);
+        console.error('Error loading favorites:', error);
       }
     );
   }
@@ -92,11 +94,12 @@ export class MovieComponent implements OnInit {
     this.movieService.addFavorite(movieId).subscribe(
       () => {
         this.favorites.push(movieId);
-        alert('Filme adicionado aos favoritos com sucesso!');
+        alert('Movie added to favorites successfully!');
+        this.updateFavoriteStates();  // Update UI after adding to favorites
       },
       (error) => {
-        console.error('Erro ao adicionar o filme aos favoritos:', error);
-        alert('Erro ao adicionar o filme aos favoritos.');
+        console.error('Error adding movie to favorites:', error);
+        alert('Error adding movie to favorites.');
       }
     );
   }
@@ -105,12 +108,21 @@ export class MovieComponent implements OnInit {
     this.movieService.removeFavorite(movieId).subscribe(
       () => {
         this.favorites = this.favorites.filter(id => id !== movieId);
-        alert('Filme removido dos favoritos com sucesso!');
+        alert('Movie removed from favorites successfully!');
+        this.updateFavoriteStates();  // Update UI after removing from favorites
       },
       (error) => {
-        console.error('Erro ao remover o filme dos favoritos:', error);
-        alert('Erro ao remover o filme dos favoritos.');
+        console.error('Error removing movie from favorites:', error);
+        alert('Error removing movie from favorites.');
       }
     );
+  }
+
+  // Update the favorite states in the UI
+  updateFavoriteStates(): void {
+    this.filteredMovies = this.filteredMovies.map(movie => ({
+      ...movie,
+      isFavorite: this.isFavorite(movie.id)
+    }));
   }
 }
