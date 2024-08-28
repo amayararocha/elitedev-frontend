@@ -69,7 +69,6 @@ export class MovieComponent implements OnInit {
     this.movieService.getFavorites().subscribe(
       (favorites: string[]) => {
         this.favorites = favorites;
-        // Update the favorite list in the UI after loading
         this.updateFavoriteStates();
       },
       (error) => {
@@ -95,7 +94,7 @@ export class MovieComponent implements OnInit {
       () => {
         this.favorites.push(movieId);
         alert('Movie added to favorites successfully!');
-        this.updateFavoriteStates();  // Update UI after adding to favorites
+        this.updateFavoriteStates();  
       },
       (error) => {
         console.error('Error adding movie to favorites:', error);
@@ -109,7 +108,7 @@ export class MovieComponent implements OnInit {
       () => {
         this.favorites = this.favorites.filter(id => id !== movieId);
         alert('Movie removed from favorites successfully!');
-        this.updateFavoriteStates();  // Update UI after removing from favorites
+        this.updateFavoriteStates();  
       },
       (error) => {
         console.error('Error removing movie from favorites:', error);
@@ -118,7 +117,6 @@ export class MovieComponent implements OnInit {
     );
   }
 
-  // Update the favorite states in the UI
   updateFavoriteStates(): void {
     this.filteredMovies = this.filteredMovies.map(movie => ({
       ...movie,
