@@ -1,27 +1,78 @@
-# MovieApp
+# Elitedev Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
+Este repositório contém o front-end da aplicação de Lista de Filmes, desenvolvida com Angular e estilizada com Tailwind CSS. A aplicação permite aos usuários pesquisar e salvar filmes em uma lista de favoritos, integrando-se com o backend para exibir detalhes dos filmes.
 
-## Development server
+## Requisitos Funcionais
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Front-End
 
-## Code scaffolding
+- **Interface de Pesquisa de Filmes**: Permite aos usuários buscar filmes pela API TMDb.
+- **Exibição de Detalhes dos Filmes**: Mostra informações detalhadas dos filmes, incluindo a nota do TMDb.
+- **Gerenciamento da Lista de Filmes Favoritos**: Adiciona e remove filmes da lista de favoritos.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias Utilizadas
 
-## Build
+- **Angular**: Framework para desenvolvimento de front-end.
+- **Tailwind CSS**: Framework para estilização.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Estrutura do Projeto
+```
+elitedev-frontend/
+│
+├── src/
+│   ├── app/
+│   │   ├── componentes/
+│   │   │   ├── favorites/          # Componentes relacionados à lista de favoritos
+│   │   │   ├── footer/             # Componente de rodapé
+│   │   │   ├── home/               # Componente da página inicial
+│   │   │   ├── login/              # Componente de login
+│   │   │   ├── movie/              # Componentes relacionados aos filmes
+│   │   │   ├── navbar/             # Componente da barra de navegação
+│   │   │   └── register/           # Componente de registro
+│   │   ├── environment/            # Configurações de ambiente
+│   │   ├── service/                # Serviços para interação com APIs
+│   │   │   ├── movie.service.ts    # Serviço para gerenciar filmes
+│   │   │   └── user.service.ts     # Serviço para gerenciar usuários
+│   │   ├── app.component.html      # HTML do componente principal
+│   │   ├── app.component.ts        # Lógica do componente principal
+│   │   ├── app.config.ts           # Configurações da aplicação
+│   │   ├── app.routes.ts           # Configuração das rotas da aplicação
+│   │   └── main.ts                 # Arquivo principal da aplicação
+```
+## Instalação e Execução
 
-## Running unit tests
+1. **Clone o repositório**:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+git clone https://github.com/amayararocha/elitedev-frontend.git
+cd elitedev-frontend
+```
+2. **Instale as dependências**:
+```
+npm install
+```
+3. **Configuração do Ambiente**:
+- Navegue até o arquivo `environment.ts` localizado em `src/environments/`.
+- Configure a URL do seu backend local substituindo o valor da variável `apiUrl` com a URL onde o backend está rodando.
+4. **Execute a aplicação**:
+```
+ng serve
+```
+5. **Acesse a aplicação no navegador**:
+```
+http://localhost:4200
+```
+## Considerações Finais
 
-## Running end-to-end tests
+O deploy do front-end foi realizado com sucesso, e a aplicação está acessível conforme esperado. No entanto, a integração com a API do backend não está funcionando corretamente devido a problemas com o deploy do backend, o que impede que a aplicação frontend se conecte à API.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Apesar desse problema de conectividade, você pode visualizar a aplicação online no seguinte link: [Link](https://elitedev-frontend.vercel.app/home). 
 
-## Further help
+### Agradecimentos
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+A construção desta aplicação foi uma grande oportunidade de aprendizado e aprimoramento de habilidades em desenvolvimento front-end, e cada desafio encontrado ajudou a crescer como desenvolvedora.
+
+Obrigado por conferir este projeto!
+
+## Demonstração
+**Vídeo de Demonstração: [Aqui](https://youtu.be/WsBcRP4Mr2U).**
